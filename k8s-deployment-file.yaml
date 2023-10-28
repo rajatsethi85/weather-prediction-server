@@ -11,6 +11,6 @@ spec:
       port: 8082
       protocol: TCP
       targetPort: 8083
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: weather-prediction-server-app
