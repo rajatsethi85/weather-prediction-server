@@ -15,6 +15,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedOrigin("http://13.127.161.181/");
+        config.addAllowedOrigin("http://a593a8352e95e4961a4718af73c9bcc6-472627972.ap-south-1.elb.amazonaws.com:8081");
         config.addAllowedHeader("X-API-KEY");
         config.addAllowedMethod("GET");
         source.registerCorsConfiguration("/**", config);
