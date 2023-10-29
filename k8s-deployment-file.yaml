@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: weather-prediction-server
-          image: weather-prediction-server
+          image: 609659644494.dkr.ecr.ap-south-1.amazonaws.com/weather-report-ecr:latest
           ports:
             - containerPort: 8080
