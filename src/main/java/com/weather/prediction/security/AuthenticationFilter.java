@@ -22,7 +22,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         try {
-            logger.info(((HttpServletRequest) servletRequest).getRequestURI());
+            logger.info("requested URI " + ((HttpServletRequest) servletRequest).getRequestURI());
             if (shouldSkipRequest(((HttpServletRequest) servletRequest).getRequestURI())) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
@@ -47,6 +47,7 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     private boolean shouldSkipRequest(String requestURI) {
         if (requestURI.startsWith("/swagger-ui") || requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/error")) {
+            logger.info("Skipping this URI from security filter");
             return true;
         } else {
             return false;
