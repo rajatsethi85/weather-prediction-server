@@ -35,7 +35,7 @@ public class AuthenticationService {
 
     public static Authentication getAuthentication(HttpServletRequest request) throws IOException {
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
-
+        logger.info("API KEY FOUND IN THE REQUEST HEADERS " + apiKey);
         if (apiKey == null || !apiKey.equals(getApiKey())) {
             throw new InvalidAPIKeyException("Invalid API Key");
         }
