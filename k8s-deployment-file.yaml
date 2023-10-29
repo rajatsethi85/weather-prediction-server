@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather-prediction-server-app
+  name: weather-prediction-server
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: weather-prediction-server-app
+      app: weather-prediction-server
   template:
     metadata:
       labels:
-        app: weather-prediction-server-app
+        app: weather-prediction-server
     spec:
       containers:
-        - name: weather-prediction-server-app
-          image: weather-prediction-server-app
+        - name: weather-prediction-server
+          image: weather-prediction-server
           ports:
-            - containerPort: 8083
+            - containerPort: 8080
