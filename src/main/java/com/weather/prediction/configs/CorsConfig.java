@@ -13,7 +13,8 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("http://13.127.161.181/");
         config.addAllowedHeader("X-API-KEY");
         config.addAllowedMethod("GET");
         source.registerCorsConfiguration("/**", config);
