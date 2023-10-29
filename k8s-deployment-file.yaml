@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: weather-prediction-server
+  annotations:
+    awslogs-group: weather-prediction-server-group
+    awslogs-stream: weather-prediction-server-stream
 spec:
   replicas: 2
   selector:
