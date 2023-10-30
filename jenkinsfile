@@ -1,0 +1,44 @@
+pipeline {
+    tools {
+        maven 'Maven3'
+    }
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/rajatsethi85/weather-prediction-server.git']]])
+            }
+        }
+        stage('Build Jar') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Image Build') {
+            steps {
+                sh 'docker build -t weather-report-ecr .'
+            }
+        }
+        stage('Push Docker Image to ECR') {
+            steps {
+                withAWS(credentials: 'ffd10b9d-3928-4c96-81f0-008394c1b28e', region: 'ap-south-1') {
+                    sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 609659644494.dkr.ecr.ap-south-1.amazonaws.com'
+                    sh 'docker tag weather-report-ecr:latest 609659644494.dkr.ecr.ap-south-1.amazonaws.com/weather-report-ecr:latest'
+                    sh 'docker push 609659644494.dkr.ecr.ap-south-1.amazonaws.com/weather-report-ecr:latest'
+                }
+            }
+        }
+        stage('Integrate Jenkins with EKS Cluster and Deploy App') {
+            steps {
+                withAWS(credentials: 'ffd10b9d-3928-4c96-81f0-008394c1b28e', region: 'ap-south-1') {
+                  script {
+                    sh ('aws eks update-kubeconfig --name weather-report-eks-cluster-1 --region ap-south-1')
+                    sh 'kubectl scale deployment weather-prediction-server --replicas=0'
+                    sh 'kubectl apply -f k8s-deployment-file.yaml'
+                    sh 'kubectl apply -f k8s-service-file.yaml'
+                }
+                }
+        }
+    }
+    }
+}
