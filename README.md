@@ -30,6 +30,16 @@ Run application using docker:
 
 NOTES:
 1. To hit the API you should have the valid api key.
+2. Jenkins file, docker file and kubernetes file is the part of the source code.
+3. Not sure for how much days or months below links are valid as I used AWS free trial to build this app.
+
+Links:
+1. http://13.127.161.181/
+   1. This is the IP link where I deployed the whole app on EC2 instance.
+2. http://a4331bc221a0e4ab1a50513d328cdfdc-1155597245.ap-south-1.elb.amazonaws.com:8081/swagger-ui/index.html
+   1. This is the link for the OPEN API spec documentation.
+   2. Also, this is the link that we can hit the base url on postman with the GET endpoint /forecast with the valid API key in headers to get the response.
+   3. Currently, this server app is deployed on EKS cluster as a service and available on internet.
   
 
 # FLOW OF APPLICATION
