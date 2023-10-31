@@ -12,16 +12,17 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Properties;
 
+/**
+ * Service class to handle authentication for the request.
+ */
 @Service
 @Slf4j
 public class AuthenticationService {
+    private static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY";
     private static Environment environment;
     private static ResourceLoader resourceLoader;
 
@@ -31,31 +32,37 @@ public class AuthenticationService {
         AuthenticationService.resourceLoader = resourceLoader;
     }
 
-    private static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY";
-
-    public static Authentication getAuthentication(HttpServletRequest request) throws IOException {
+    /**
+     * Get Authentication for the request.
+     *
+     * @return Authentication
+     */
+    public static Authentication getAuthentication(HttpServletRequest request) {
         String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);
-        log.info("API KEY FOUND IN THE REQUEST HEADERS " + apiKey);
-        if (apiKey == null || !apiKey.equals(getApiKey())) {
+        if (apiKey == null || !apiKey.equals(getSecretApiKey())) {
             throw new InvalidAPIKeyException("Invalid API Key");
         }
 
         return new ApiKeyAuthentication(apiKey, AuthorityUtils.createAuthorityList("ADMIN"));
     }
 
-    public static String getApiKey() {
+    /**
+     * Get Secret API key from the properties file.
+     * @return String authenticationApiKey.
+     */
+    public static String getSecretApiKey() {
         Properties properties = new Properties();
-        String apiKey = "";
+        String authenticationApiKey = "";
         String[] activeProfile = environment.getActiveProfiles();
         Resource resource = resourceLoader.getResource("classpath:application-" + activeProfile[0] + ".properties");
         try (InputStream inputStream = resource.getInputStream()) {
             // Load the properties file
             properties.load(inputStream);
             // Get values
-            apiKey = properties.getProperty("client.api.key");
+            authenticationApiKey = properties.getProperty("client.api.key");
         } catch (IOException e) {
             log.error("Error occurred while fetching apiKey from getApiKey() method", e);
         }
-        return apiKey;
+        return authenticationApiKey;
     }
 }

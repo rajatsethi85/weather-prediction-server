@@ -1,12 +1,11 @@
 package com.weather.prediction.controller;
 
 import com.weather.prediction.clientDTO.WeatherForecastClient;
-import com.weather.prediction.service.WeatherForcastingService;
+import com.weather.prediction.service.WeatherForecastingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Rest controller to fetch weather report from the weather api.
+ */
 @RestController
 @RequestMapping("/forecast")
 @SecurityScheme(
@@ -30,8 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "WeatherForecastController", description = "Controller for managing weather forecast API endpoint.")
 public class WeatherForecastController {
     @Autowired
-    private WeatherForcastingService weatherForcastingService;
+    private WeatherForecastingService weatherForecastingService;
 
+    /**
+     * Get Weather report by city name.
+     * @param cityName Name of city.
+     * @return WeatherForecastClient.
+     */
     @GetMapping()
     @Operation(summary = "Get Weather report by city name", description = "Get an item by its name.")
     @SecurityRequirement(name = "API key")
@@ -45,6 +52,6 @@ public class WeatherForecastController {
     @Parameter(name = "X-API-KEY",in = ParameterIn.HEADER)
     public WeatherForecastClient getWeatherForecast(@Parameter(description = "Name of city", required = true)
                                                     @RequestParam(value = "cityName") final String cityName) {
-        return weatherForcastingService.forcast(cityName);
+        return weatherForecastingService.forecast(cityName);
     }
 }

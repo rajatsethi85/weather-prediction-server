@@ -2,9 +2,6 @@ package com.weather.prediction.security;
 
 import com.weather.prediction.customExceptions.CityNotFoundException;
 import com.weather.prediction.service.AuthenticationService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +14,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * Filter class for authentication the suer request.
+ */
 
 public class AuthenticationFilter extends GenericFilterBean {
     @Override
@@ -45,6 +46,11 @@ public class AuthenticationFilter extends GenericFilterBean {
         }
     }
 
+    /**
+     * Method to allow some request URI's to directly hit our application by bypassing the spring security.
+     *
+     * @return boolean true is URI should be skipped for authentication else false.
+     */
     private boolean shouldSkipRequest(String requestURI) {
         if (requestURI.startsWith("/swagger-ui") || requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/error")) {
             logger.info("Skipping this URI from security filter");
