@@ -51,7 +51,7 @@ public class WeatherForecastingService implements OpenWeatherForecaster {
      *
      * @param  weatherForecast weather forecast report.
      */
-    private void updateWeatherReportData(WeatherForecast weatherForecast) {
+    public void updateWeatherReportData(WeatherForecast weatherForecast) {
         weatherForecast.getList().forEach(forecast -> {
 
             // Convert the epoch timestamp to an Instant
@@ -89,7 +89,7 @@ public class WeatherForecastingService implements OpenWeatherForecaster {
      * @param  weatherForecast weather forecast report.
      * @return WeatherForecastClient class data send to client.
      */
-    private WeatherForecastClient extractFourDaysWeatherReport(WeatherForecast weatherForecast) {
+    public WeatherForecastClient extractFourDaysWeatherReport(WeatherForecast weatherForecast) {
         WeatherForecastClient clientDetails;
         List<List<WeatherForecastDetails>> groupedList = new LinkedList<>(weatherForecast.getList().stream()
                 .collect(Collectors.groupingBy(WeatherForecastDetails::getDate)).values());
