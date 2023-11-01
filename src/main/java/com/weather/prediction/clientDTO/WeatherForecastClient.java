@@ -2,8 +2,10 @@ package com.weather.prediction.clientDTO;
 
 import com.weather.prediction.serverDTO.WeatherForecast;
 import com.weather.prediction.serverDTO.WeatherForecastDetails;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class WeatherForecastClient {
     /**
      * Holds the message returned by weather API.

@@ -18,7 +18,6 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 public class WeatherPredictionServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(WeatherPredictionServerApplication.class, args);
-//        SpringDocUtils.init();
     }
 
 }
